@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import URI from '../Config/Uri';
 
-const Login = () => {
+const Signup = () => {
   const [formdata, setformdata] = useState({
+    firstname: '',
+    lastname: '',
     email: '',
     password: ''
   });
 
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setformdata({
@@ -16,36 +19,63 @@ const Login = () => {
     });
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();  
-
-    try {
-      const response = await axios.post("https://raybit-tasks.onrender.com/login", formdata);
-      console.log(response)
-      if(response.data.message ==="Your are Logged in Successfully! Now Enjoy unlimited access....."){
-        console.log('Login successful', response.data);
-        
-      }
+    // console.log(formdata,"myform"  )
       
-      else{
-        console.log(response.data,"message")
-      }
+  
+    try {
+      const response = await axios.post("https://raybit-tasks.onrender.com/signup", formdata);
+      console.log(response)  
+     if(response.message=="User Created Successfully!!!"){
+      console.log("User created ")
+     }
+    
+
+
       setformdata({
+        firstname:'',
+        lastname:'',
         email:'',
         password:''
-      })
-     
 
+
+      })
     } 
     catch (error) {
-      console.error('Error logging in:', error);
+      console.error('Error submitting form:', error);
     }
   };
 
   return (
     <div className='container d-flex justify-content-center align-items-center min-vh-100'>
       <form className='p-3 rounded shadow-sm bg-secondary' onSubmit={handleSubmit} style={{ width: '300px', padding: '20px' }}>
-        <h2 className='text-center mb-3'>Login</h2>
+        <h2 className='text-center mb-3'>Sign Up</h2>
+        <div className='mb-2'>
+          <label className='form-label'>First Name</label>
+          <input 
+            type='text' 
+            name='firstname' 
+            value={formdata.firstname} 
+            onChange={handleInputChange}  
+            className='form-control' 
+            placeholder='First name' 
+            required 
+          />
+        </div>
+        <div className='mb-2'>
+          <label className='form-label'>Last Name</label>
+          <input 
+            type='text' 
+            name='lastname' 
+            value={formdata.lastname} 
+            onChange={handleInputChange}  
+            className='form-control' 
+            placeholder='Last name' 
+            required 
+          />
+        </div>
         <div className='mb-2'>
           <label className='form-label'>Email</label>
           <input 
@@ -72,7 +102,7 @@ const Login = () => {
         </div>
         <div className='d-grid'>
           <button className='btn btn-primary btn-sl my-3' type='submit'>
-            Login
+            Sign Up
           </button>
         </div>
       </form>
@@ -80,4 +110,4 @@ const Login = () => {
   );
 }
 
-export default Login;
+export default Signup;
